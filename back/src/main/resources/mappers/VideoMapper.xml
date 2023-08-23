@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.fit.model.dao.VideoDao">
+	<resultMap type="Video" id="videoMap">
+		<result column="video_seq" property="videoSeq"/>
+		<result column="video_id" property="videoId"/>
+		<result column="view_cnt" property="viewCnt"/>
+	</resultMap>
+
+<!-- 유저 등록 -->
+	<insert id="insert" parameterType="Video">
+	insert into video values (#{videoSeq}, #{title}, #{part}, #{videoId}, #{creator}, #{viewCnt})
+	</insert>
+	
+	<!-- 유저 찾기 -->
+	<select id="selectAll" resultMap="videoMap">
+		select * from video
+	</select>
+	
+	<select id="selectOne" parameterType="String" resultMap="videoMap">
+		select * from video where video_id=#{videoId}
+	</select>
+	
+	<select id="selectByPart" parameterType="String" resultMap="videoMap">
+		select * from video where part=#{part}
+	</select>
+
+	<select id="selectByViewCnt" resultMap="videoMap">
+		select * from video ORDER BY view_cnt DESC
+	</select>
+</mapper>

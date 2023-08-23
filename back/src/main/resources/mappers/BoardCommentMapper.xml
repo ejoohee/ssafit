@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.fit.model.dao.BoardCommentDao">
+
+	<resultMap type="BoardComment" id="boardCommentMap">
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="writer" property="writer" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />	
+	</resultMap>
+	
+	<insert id="insertBoardComment" parameterType="BoardComment" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO boardcomments (id, board_id, writer, content)
+		VALUES (#{id}, #{boardId}, #{writer}, #{content})
+	</insert>
+
+	<update id="updateBoardComment" parameterType="BoardComment">
+		UPDATE boardcomments
+		SET
+		content = #{content}
+		WHERE id = #{id} AND board_id = #{boardId}
+	</update>
+	
+	<delete id="deleteBoardComment" parameterType="int">
+		DELETE FROM boardcomments WHERE id = #{id}
+	</delete>
+
+	<select id="selectOne" resultMap="boardCommentMap" parameterType="int">
+		SELECT id, board_id, writer, content,
+		date_format(reg_date, '%Y-%m-%d %H:%i:%s') as reg_date
+		FROM boardcomments
+		WHERE id = #{id}
+	</select>	
+	
+	<select id="selectAll" resultMap="boardCommentMap">
+		SELECT id, board_id, writer, content,
+		date_format(reg_date, '%Y-%m-%d %H:%i:%s') as reg_date
+		FROM boardcomments
+	</select>
+	
+</mapper>

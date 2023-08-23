@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.fit.model.dao.LikeDao">
+	<resultMap type="Like" id="likeMap">
+		<result column="video_id" property="videoId"/>
+		<result column="id" property="id"/>
+		<result column="video_title" property="videoTitle"/>
+	</resultMap>
+
+	<!--찜 등록 -->
+	<insert id="insert" parameterType="Like">
+		insert into likes values (#{id}, #{videoId}, #{videoTitle})
+	</insert>
+	
+	<!--찜 삭제 -->
+	<delete id="delete" parameterType="Like">
+		delete from likes where video_id=#{videoId} and id=#{id}
+	</delete>
+
+	<!--찜 찾기 -->
+	<select id="selectByUser" parameterType="String" resultMap="likeMap">
+	select * from likes where id=#{id}
+	</select>
+
+
+</mapper>

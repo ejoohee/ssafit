@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.fit.model.dao.CommentDao">
+	<resultMap type="Comment" id="commentMap">
+		<result column="comment_seq" property="commentSeq"/>
+		<result column="video_id" property="videoId"/>
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+
+	<!--댓글 등록 -->
+	<insert id="insert" parameterType="Comment">
+		insert into comments (comment_seq, video_id, nickname, content) values (#{commentSeq},#{videoId}, #{nickname}, #{content})
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="update" parameterType="Comment">
+		update comments set nickname=#{nickname}, content=#{content} where comment_seq=#{commentSeq}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from comments where comment_seq=#{commentSeq}
+	</delete>
+
+	<!-- 댓글 찾기 -->
+	<select id="selectAll" resultMap="commentMap">
+		select * from comments
+	</select>
+
+
+	<select id="selectByVideo" parameterType="String" resultMap="commentMap">
+		select * from comments where video_id=#{videoId}
+	</select>
+	
+	<select id="select" parameterType="int" resultMap="commentMap">
+		select * from comments where comment_seq=#{commentSeq}
+	</select>
+</mapper>
